@@ -1,0 +1,61 @@
+PidFile = /var/run/hhvm.pid
+
+Server {
+  Port = 80
+  SourceRoot = /app
+}
+
+EnvVariables {
+
+}
+
+Eval {
+  Jit = true
+}
+Log {
+  Level = Error
+  UseLogFile = true
+  File = /var/log/hhvm/error.log
+  Access {
+    * {
+      File = /var/log/hhvm/access.log
+      Format = %h %l %u %t \"%r\" %>s %b
+    }
+  }
+}
+
+VirtualHost {
+ * {
+   Pattern = .*
+   RewriteRules {
+      * {
+        pattern = .?
+
+	# app bootstrap
+        to = index.php
+
+        # append the original query string
+        qsa = true
+      }
+   }
+ }
+}
+
+StaticFile {
+  Extensions {
+    css = text/css
+    gif = image/gif
+    html = text/html
+    jpe = image/jpeg
+    jpeg = image/jpeg
+    jpg = image/jpeg
+    png = image/png
+    tif = image/tiff
+    tiff = image/tiff
+    txt = text/plain
+  }
+}
+
+DynamicExtensions {
+
+}
